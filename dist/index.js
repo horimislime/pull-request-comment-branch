@@ -9528,6 +9528,7 @@ async function isPullRequest(token) {
 exports.isPullRequest = isPullRequest;
 async function pullRequestDetails(token) {
     const client = (0, github_1.getOctokit)(token);
+    console.log(`repo: ${github_1.context.repo} issue: ${github_1.context.issue.number}`);
     const { repository: { pullRequest: { baseRef, headRef }, }, } = await client.graphql(`
       query pullRequestDetails($repo:String!, $owner:String!, $number:Int!) {
         repository(name: $repo, owner: $owner) {
