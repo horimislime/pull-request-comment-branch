@@ -21,11 +21,15 @@ interface PullRequestDetailsResponse {
 
 export async function isPullRequest(token: string) {
   const client = getOctokit(token);
+  console.log(`client: ${client}`);
 
-  const { data: { pull_request } } = await client.rest.issues.get({
+  const {
+    data: { pull_request },
+  } = await client.rest.issues.get({
     ...context.repo,
     issue_number: context.issue.number,
   });
+  console.log("success");
 
   return !!pull_request;
 }
@@ -35,10 +39,7 @@ export async function pullRequestDetails(token: string) {
 
   const {
     repository: {
-      pullRequest: {
-        baseRef,
-        headRef,
-      },
+      pullRequest: { baseRef, headRef },
     },
   } = await client.graphql<PullRequestDetailsResponse>(
     `
@@ -63,8 +64,8 @@ export async function pullRequestDetails(token: string) {
     `,
     {
       ...context.repo,
-      number: context.issue.number
-    },
+      number: context.issue.number,
+    }
   );
 
   return {
