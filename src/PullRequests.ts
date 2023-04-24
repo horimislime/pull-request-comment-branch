@@ -37,7 +37,9 @@ export async function isPullRequest(token: string) {
 export async function pullRequestDetails(token: string) {
   const client = getOctokit(token);
 
-  console.log(`repo: ${context.repo} issue: ${context.issue.number}`);
+  console.log(
+    `repo: ${context.repo.repo} owner: ${context.repo.owner} issue: ${context.issue.number}`
+  );
 
   const {
     repository: {
